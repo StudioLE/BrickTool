@@ -1,0 +1,107 @@
+<div class="main">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-sm-4">
+        <label>Number of horizontal courses</label>
+        <div class="form-group">
+          <input type="number" class="form-control"
+                placeholder="Number of horizontal courses"
+                ng-model="courses.x"
+                ng-change="setDims()">
+        </div> <!-- .input-group -->
+      </div> <!-- .col -->
+
+      <div class="col-sm-4">
+        <label>Length of horizontal course</label>
+        <div class="input-group">
+          <input type="text" class="form-control"
+                placeholder="Length of horizontal course"
+                ng-model="length">
+          <div class="input-group-addon">mm</div>
+        </div> <!-- .input-group -->
+      </div> <!-- .col -->
+
+      <div class="col-sm-4">
+        <label>CO style</label>
+        <div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search"></i>  {{ coType(courses.co) }}  <span class="caret"></span></button>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li><a href="#" ng-click="courses.co= 2; setDims()">CO+</a></li>
+              <li><a href="#" ng-click="courses.co= 1; setDims()">CO</a></li>
+              <li><a href="#" ng-click="courses.co= 0; setDims()">CO-</a></li>
+            </ul>
+          </div> <!-- .btn-group -->
+        </div>
+      </div> <!-- .col -->
+
+    </div> <!-- .row -->
+
+    <div class="row">
+      <div class="col-sm-4">
+        <label>Number of vertical courses</label>
+        <div class="form-group">
+          <input type="number" class="form-control"
+                placeholder="Number of vertical courses"
+                ng-model="courses.y"
+                ng-change="setDims()">
+        </div> <!-- .input-group -->
+      </div> <!-- .col -->
+
+      <div class="col-sm-4">
+        <label>Height of vertical course</label>
+        <div class="input-group">
+          <input type="text" class="form-control"
+                placeholder="Height of vertical course"
+                ng-model="height">
+          <div class="input-group-addon">mm</div>
+        </div> <!-- .input-group -->
+      </div> <!-- .col -->
+
+      <div class="col-sm-4">
+          <div ng-if="courses.co== 2">Brick + 2 joints: door and window openings</div>
+          <div ng-if="courses.co== 1">Brick + 1 joint: brick panel with opposite return end</div>
+          <div ng-if="courses.co== 0">Brick only: brick piers or panels between openings</div>
+        </div> <!-- .input-group -->
+      </div> <!-- .col -->
+
+    </div> <!-- .row -->
+  </div> <!-- .container -->
+
+  <div class="container-fluid" ng-if="1">
+    <div class="course" ng-repeat="iY in repeatY() track by $index">
+      <div class="joint" ng-if="courses.co>= 1"></div>
+      <div class="brick" ng-class="isOdd($index) ? 'half': ''"></div>
+      <div class="joint" ng-repeat-start="iX in repeatX() track by $index"></div>
+      <div class="brick" ng-repeat-end></div>
+      <div class="joint" ng-if="isOdd($index)"></div>
+      <div class="brick half" ng-if="isOdd($index)"></div>
+      <div class="joint" ng-if="courses.co=== 2"></div>
+      <div class="clearfix"></div>
+    </div> <!-- .course -->
+  </div> <!-- .container -->
+
+  <div class="container-fluid" ng-if="0">
+    <div class="course" ng-repeat="iY in repeatY() track by $index">
+      <div ng-if=" ! isOdd($index)">
+        <div class="joint" ng-if="courses.co>= 1"></div>
+        <div class="brick"></div>
+        <div class="joint" ng-repeat-start="iX in repeatX() track by $index"></div>
+        <div class="brick" ng-repeat-end></div>
+        <div class="joint" ng-if="courses.co=== 2"></div>
+        <div class="clearfix"></div>
+      </div>
+      <div ng-if="isOdd($index)">
+        <div class="joint" ng-if="courses.co>= 1"></div>
+        <div class="brick queen"></div>
+        <div class="joint" ng-repeat-start="iX in repeatX(2) track by $index"></div>
+        <div class="brick half" ng-repeat-end></div>
+        <div class="joint"></div>
+        <div class="brick queen"></div>
+        <div class="joint" ng-if="courses.co=== 2"></div>
+        <div class="clearfix"></div>
+      </div>
+    </div> <!-- .course -->
+  </div> <!-- .container -->
+</div> <!-- .main -->
